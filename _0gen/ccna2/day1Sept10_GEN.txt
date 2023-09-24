@@ -1,6 +1,6 @@
 !@@@LeafSwitchONLY
 config t
-   hostname COREbaba21
+   hostname COREbaba-21
    enable secret pass
    service password-encryption
    no logging console
@@ -279,6 +279,7 @@ config t
 
  
  !!! EDGE route NOT dikit to ClassMate:
+ config t
  ip route 10.11.0.0 255.255.0.0 200.0.0.11
  ip route 10.12.0.0 255.255.0.0 200.0.0.12
  ip route 10.21.0.0 255.255.0.0 10.21.21.4
@@ -304,6 +305,11 @@ config t
  config t
  ip routing 
  ip route 0.0.0.0 0.0.0.0 10.21.100.4
+ 
+ @Edge
+ config t
+ ip routing 
+ ip route 0.0.0.0 0.0.0.0 10.21.21.4
  
 
 @@@@@@@@@
@@ -339,9 +345,9 @@ application
   param aa-pilot 2169
  service rivanqueue flash:app-b-acd-3.0.0.2.tcl
   param queue-len 15
-  param aa-hunt1 2100
-  param aa-hunt2 2101
-  param aa-hunt3 2133
+  param aa-hunt1 2111
+  param aa-hunt2 2155
+  param aa-hunt3 2100
   param aa-hunt4 2177
   param queue-manager-debugs 1
   param number-of-hunt-grps 4

@@ -1,0 +1,31 @@
+@VPNJP:
+config t
+no logg cons
+no ip domain-lookup
+ip route 0.0.0.0 0.0.0.0 200.0.0.20
+int gi 1
+ip add 200.0.0.10 255.255.255.0
+no shut
+int gi3
+ip add 10.10.10.1 255.255.255.0
+no shut
+
+@VPNPHP:
+config t
+no logg cons
+no ip domain-lookup
+ip route 0.0.0.0 0.0.0.0 200.0.0.10
+int gi 1
+ip add 200.0.0.20 255.255.255.0
+no shut
+int gi3
+ip add 10.10.20.1 255.255.255.0
+no shut
+
+@BLDG_VPNJP:
+sudo ifconfig eth0 10.10.10.10 netmask 255.255.255.0 up
+sudo route add default gw 10.10.10.1
+
+@BLDG_VPNPH:
+sudo ifconfig eth0 10.10.20.20 netmask 255.255.255.0 up
+sudo route add default gw 10.20.20.1

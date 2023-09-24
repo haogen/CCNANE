@@ -1,0 +1,88 @@
+all eigrp
+@cm
+config t
+router eigrp 100
+no auto-summary
+network 10.0.0.0
+
+@CoreBABA
+config t
+router eigrp 100
+no auto-summary
+network 10.0.0.0
+
+@Edge
+config t
+router eigrp 100
+no auto-summary
+network 10.0.0.0
+network 200.0.0.0
+
+ALL EIGRP: be ready masira ang ULO!!!
+@CM
+config t
+no router eigrp 100
+router ospf 1
+network 10.21.100.0 0.0.0.255 area 0
+
+@CoreBaba
+config t
+no router eigrp 100
+router ospf 1
+network 10.21.100.0 0.0.0.255 area 0
+network 10.21.21.0 0.0.0.255 area 0
+
+@Edge
+config t
+no router eigrp 100
+router ospf 1
+network 200.0.0.0 0.0.0.255 area 0
+network 10.21.21.0 0.0.0.255 area 0
+
+ALL BGP
+@CM
+config t
+router bgp 2121
+neighbor 10.21.100.4 remote-as 2121
+network 10.21.100.0 mask 255.255.255.0
+
+@CoreBaba
+config t
+no router bgp 1
+router bgp 2121
+neighbor 10.21.100.8 remote-as 2121
+neighbor 10.21.21.1 remote-as 21
+network 10.21.100.0 mask 255.255.255.0
+network 10.21.21.0 mask 255.255.255.0
+
+@Edge
+config t
+router bgp 21
+neighbor 10.21.21.4 remote-as 2121
+neighbor 200.0.0.22 remote-as 22
+!!!neighbor 200.0.0.21 remote-as 21
+!
+neighbor 200.0.0.11 remote-as 11
+neighbor 200.0.0.12 remote-as 12
+neighbor 200.0.0.22 remote-as 22
+neighbor 200.0.0.31 remote-as 31
+neighbor 200.0.0.32 remote-as 32
+neighbor 200.0.0.41 remote-as 41
+neighbor 200.0.0.42 remote-as 42
+neighbor 200.0.0.51 remote-as 51
+neighbor 200.0.0.52 remote-as 52
+neighbor 200.0.0.61 remote-as 61
+neighbor 200.0.0.62 remote-as 62
+neighbor 200.0.0.71 remote-as 71
+neighbor 200.0.0.72 remote-as 72
+network 200.0.0.0 mask 255.255.255.0
+network 10.12.12.0 mask 255.255.255.0
+
+REAL WORLD SITE to SITE VPN
+ang Mali ko, Mali Naten Dalawa
+EDGE: ENABLE username for vpn:
+config t
+username admin privilege 15 secret password
+ip http secure-server
+
+site VPN
