@@ -1,0 +1,447 @@
+cmd
+10.k.1.10
+net use \\10.k.1.10\ipc$
+layer 4: attack:
+nmap -v 10.k.1.10      netstat -s -p tcp
+net use x: \\10.k.1.10\c$
+CUCM: sh controlplane host open-ports
+
+how to attack layer 3: IP addresses
+nmap -sP 110.34.166.0/24       nmap -sP 202.125.102.0/24
+
+nmap -v www.sti.edu.ph           nmap -v www.admu.edu.ph
+
+sh mac address-table
+
+how to attack layer 3:
+net use x: /delete
+
+@EDGE:
+ex.1 use ST access to block the other group:
+method: via permit vs via deny
+
+@VIA PERMIT
+config t
+no access-list 1
+access-list 1 permit 10.11.0.0 0.0.255.255
+access-list 1 permit 10.21.0.0 0.0.255.255
+access-list 1 permit 10.31.0.0 0.0.255.255
+access-list 1 permit 10.41.0.0 0.0.255.255
+access-list 1 permit 10.51.0.0 0.0.255.255
+access-list 1 permit 10.61.0.0 0.0.255.255
+access-list 1 permit 10.71.0.0 0.0.255.255
+do sh ip access-list 1
+Interface Gi0/0/1
+  IP access-group 1 in
+
+@UNLOCK
+config t
+Interface Gi0/0/1
+ NO IP access-group 8 in
+
+@VIA DENY:
+config t
+no access-list 2
+access-list 2 DENY 10.12.0.0 0.0.255.255
+access-list 2 DENY 10.22.0.0 0.0.255.255
+access-list 2 DENY 10.32.0.0 0.0.255.255
+access-list 2 DENY 10.42.0.0 0.0.255.255
+access-list 2 DENY 10.52.0.0 0.0.255.255
+access-list 2 DENY 10.62.0.0 0.0.255.255
+access-list 2 DENY 10.72.0.0 0.0.255.255
+access-list 2 Permit ANY
+do sh ip access-list 2
+Interface Gi0/0/1
+  IP access-group 2 in
+  
+@ByGroup
+config t
+no access-list 3
+access-list 3 permit 10.11.0.0 0.0.255.255
+access-list 3 permit 10.12.0.0 0.0.255.255
+access-list 3 permit 10.21.0.0 0.0.255.255
+access-list 3 permit 10.22.0.0 0.0.255.255
+access-list 3 permit 10.31.0.0 0.0.255.255
+access-list 3 permit 10.32.0.0 0.0.255.255
+access-list 3 permit 10.41.0.0 0.0.255.255
+do sh ip access-list 3
+Interface Gi0/0/1
+  IP access-group 3 in
+  
+@MagbawasngKaibigan
+config t
+no access-list 4
+access-list 4 permit 10.11.0.0 0.0.255.255
+access-list 4 permit 10.12.0.0 0.0.255.255
+access-list 4 permit 10.22.0.0 0.0.255.255
+do sh ip access-list 4
+Interface Gi0/0/1
+  IP access-group 4 in
+  
+@Dalawahan
+config t
+no access-list 5
+access-list 5 permit 10.22.0.0 0.0.255.255
+do sh ip access-list 5
+Interface Gi0/0/1
+  IP access-group 5 in
+  
+EXAM QUESTIONS: BLOCK ALL THE RUSSIAN
+@DENYALLRUSSIAN
+config t
+no access-list 6
+access-list 6 DENY 5.136.0.0 0.7.255.255
+access-list 6 DENY 95.24.0.0 0.7.255.255
+access-list 6 DENY 176.208.0.0 0.7.255.255
+access-list 6 DENY 178.64.0.0 0.7.255.255
+access-list 2 Permit ANY
+do sh ip access-list 6
+Interface Gi0/0/1
+  IP access-group 6 in
+  
+@TELNET/SSH ACCESS
+
+csim start 2200 = tinawagan ung katabi
+
+use Standard ACL to allow ONLY your IP address to Manage your
+Devices:
+@HindiMakapasokangKatabi nr K22
+config t
+no access-list 8
+access-list 8 permit 10.21.0.0 0.0.255.255 
+Line vty 0 14
+  access-class 8 in
+
+@UNLOCK
+config t
+Line vty 0 14
+ NO IP access-group 8 in
+ 
+@Cucm:
+config t
+int fa 0/0
+ ip add 10.21.100.9 255.255.255.0 Secondary
+service finger
+service tcp-small-servers
+service udp-small-servers
+ip dns server
+ip http server
+ip http secure-server
+!Make Ping EASY
+ip host pc 10.21.1.10
+ip host cm 10.21.100.8
+ip host cm2 10.21.100.9
+ip host p1 10.21.100.103
+ip host p2 10.21.100.104
+ip host sw 10.21.1.4
+ip host ed 10.21.21.1
+ip host c1 10.21.50.6
+ip host c2 10.21.50.8
+
+telnet 10.21.100.8 19 = charcters of cisco
+telner 10.21.100.8 13 = Clock
+
+VAPT: 
+cmd
+ping 10.21.100.8        ping 10.21.100.9
+nmap -v 10.21.100.8     nmap -v 10.21.100.9
+
+TASK7: Enter the World of BlueTeam: Protect vs Redteam: Attack, 
+BlueTeam: UTM: unified Threat management:
+1. firewall = ccna
+2. VPN
+3. EnterpriseAnti-Virus
+4. IntrusionDetection/IntrusionPrevention
+5  Network Admissions Control.
+Top 5 UTM: 1.FortinetFortigate:
+           1.1: Palo Alto:superSuplado
+           2. Checkpoint
+           3.4 Cisco
+
+TASK8: CONGigure YOur first Packet Filter Firewall.
+ FORMULA: "  Protocol    hacker   victim  Port "
+        tcp,udp,icmp,IP   "any"   cm/cm2  
+
+EX1: MAKE A FIREWALL POLICY to ALLOW THESE: 100-199
+cm is a webserver: 80, 443
+cm 2 is an ssh,telnet,dns server: 22, 23, 53
+
+@CUCM:
+config t
+no access-list 100
+access-list 100 permit tcp any host cm eq 80
+access-list 100 permit tcp any host cm eq 443
+access-list 100 permit tcp any host cm2 eq 22
+access-list 100 permit tcp any host cm2 eq 23
+access-list 100 permit tcp any host cm2 eq 53
+Int Fa 0/0
+ip access-group 100 in
+do sh ip access-list 100
+
+nmap -Pnv cm          nmap -Pnv cm2
+
+@Unlock
+Int Fa 0/0
+NO ip access-group 100 in
+do sh ip access-list 100
+
+EX2: Create a firewall policy to meet this condition:
+cm allow ssh, web, sccp
+cm2 allow https, telnet, ping => 6lines
+@CUCM
+config t
+no access-list 101
+access-list 101 permit tcp any host cm eq 22
+access-list 101 permit tcp any host cm eq 80
+access-list 101 permit tcp any host cm eq 2000
+access-list 101 permit tcp any host cm2 eq 443
+access-list 101 permit tcp any host cm2 eq 23
+access-list 101 permit icmp any host cm2
+Int Fa 0/0
+ip access-group 101 in
+do sh ip access-list 101
+@Unlock
+Int Fa 0/0
+NO ip access-group 100 in
+do sh ip access-list 101
+
+EX3: Create a firewall policy to meet this condition:
+cm allow ping, telnet, dns, ssh
+cm2 allow dns, https, sccp, sip => 6lines
+@CUCM
+config t
+no access-list 102
+access-list 102 permit icmp any host cm 
+access-list 102 permit tcp any host cm eq 23
+access-list 102 permit tcp any host cm eq 53
+access-list 102 permit tcp any host cm eq 22
+access-list 102 permit tcp any host cm2 eq 53
+access-list 102 permit tcp any host cm2 eq 443
+access-list 102 permit tcp any host cm2 eq 2000
+access-list 102 permit tcp any host cm2 eq 5060
+Int Fa 0/0
+ip access-group 102 in
+do sh ip access-list 102
+
+EX3: Create a firewall policy to meet this condition: 103
+cm allow daytime, chargen, finger, telnet
+cm2 allow http, https, dns, ssh => 8lines
+
+@CUCM
+config t
+no access-list 103
+access-list 103 permit tcp any host cm eq  13
+access-list 103 permit tcp any host cm eq 19
+access-list 103 permit tcp any host cm eq 79
+access-list 103 permit tcp any host cm eq 23
+access-list 103 permit tcp any host cm2 eq 80
+access-list 103 permit tcp any host cm2 eq 443
+access-list 103 permit tcp any host cm2 eq 53
+access-list 103 permit tcp any host cm2 eq 22
+Int Fa 0/0
+ip access-group 103 in
+do sh ip access-list 103
+
+EX4: Create a firewall policy to meet this condition: 104
+You are a cyberanalyst, make a policy for cm as dns server while cm2 is a web and secureweb server. Make yout both cm, cm2 can be pinged for troubleshooting
+
+@CUCM
+config t
+no access-list 104
+access-list 104 permit tcp any host cm eq  53
+access-list 104 permit icmp any host cm
+access-list 104 permit tcp any host cm2 eq 80
+access-list 104 permit tcp any host cm2 eq 443
+access-list 104 permit icmp any host cm2
+Int Fa 0/0
+ip access-group 104 in
+do sh ip access-list 104
+@Unlock
+Int Fa 0/0
+NO ip access-group 100 in
+do sh ip access-list 101
+
+EX5: multiple hackers, multiple victims
+@cucm: Make a policy to meet this conditions only:
+- pc can ping and http cm
+- p1 can ping cm
+- p2 can sccp cm
+- c1 can ping cm
+- c2 can https cm
+- pc can http c2 
+
+@CUCM
+config t
+no access-list 105
+access-list 105 permit icmp host pc host cm
+access-list 105 permit tcp host pc host cm eq  53
+access-list 105 permit icmp host p1 host cm
+access-list 105 permit tcp host p2 host cm eq 2000
+access-list 105 permit icmp host c1 host cm
+access-list 105 permit tcp host c2 host cm eq 443
+access-list 105 permit tcp host pc host cm2 eq 80
+Int Fa 0/0
+ip access-group 105 in
+do sh ip access-list 105
+
+EX6: baliktad ng EX5
+@CUCM
+config t
+no access-list 106
+access-list 106 permit tcp host pc host cm eq 23
+access-list 106 permit tcp host pc host cm eq  53
+access-list 106 permit icmp host p2 host cm
+access-list 106 permit tcp host p1 host cm eq 2000
+access-list 106 permit icmp host c2 host cm
+access-list 106 permit tcp host c1 host cm eq 443
+access-list 106 permit tcp host pc host cm eq 80
+Int Fa 0/0
+ NO ip access-group 106 in
+do sh ip access-list 106
+
+config t
+ip access-list Extended BAWALU1
+permit tcp host pc host cm eq 23
+permit tcp host pc host cm eq  53
+permit icmp host p2 host cm
+permit tcp host p1 host cm eq 2000
+permit icmp host c2 host cm
+permit tcp host c1 host cm eq 443
+permit tcp host pc host cm eq 80
+Int Fa 0/0
+ ip access-group BAWALU1 in
+ 
+ Task9: NETWORK SETVICES
+ 
+ Install-WindowsFeature Web-FTP-Server -IncludeAllSubFeature 
+                                       -IncludeMangementTools
+TASK11: NETWORK TIME PROTOCOL
+NETWORK Service that sync time in network
+CUCM:
+sh ntp associations
+config t
+	ntp server 10.21.1.10
+	do sh ntp assoc
+	clock timezone GMT +8
+	
+TASK 12: Secure Shell Protocol or ssh:3rd Lab
+config t
+username admin privilege 15 secret pass
+ip domain-name isdcnetbn.com
+!!cryptokey will use isdcnetbn.com
+crypto key generate rsa
+!!! 512(fugly!) ---> 1024(better)
+ip ssh version 2
+line vty 0 14
+ login local
+ 
+ TASK 13: Will you be fired in 5 years??
+ yes i will be fired if no automation!
+ no if i get automation skills.
+ Programmer = sakit ULO, "merd/utakProgrammer!"
+ NetworkEng = Cool with lots of bisyo!
+ 
+ programmer + network eng = NETDEVOPS
+ 
+ config t
+no event manager applet CreateLoopbacks
+event manager applet CreateLoopbacks
+ event none
+ action 1.0 puts "How many Loopback interfaces do you wish to create?"
+ action 1.1 puts nonewline "> "
+ action 1.2 gets num 
+ action 2.0 cli command "enable"
+ action 2.1 cli command "conf t"
+ action 3.0 set i "1"
+ action 3.1 while $i le $num
+ action 3.2  cli command "interface Loopback $i"
+ action 3.3  cli command "ip address $i.$i.$i.$i 255.255.255.255"
+ action 3.4  increment i 1
+ action 3.5 end
+ action 4.0 cli command "end"
+ end
+ 
+ NETDEVOPS
+ 
+ @EDGE
+ erase startup-config
+ reload
+ no
+ press enter
+ 
+ @VMWARE
+ ena
+ config t
+ int gi 1
+ ip add dhcp
+ no shut
+ 
+ create 3 new clone sessions
+ 
+ @VM
+ config t
+iox
+interface GigabitEthernet2
+ip address dhcp
+ip nat outside
+no shut
+exit
+!
+interface VirtualPortGroup0
+ip address 192.168.35.1 255.255.255.0
+ip nat inside
+exit
+!
+ip nat inside source list GS_NAT_ACL interface GigabitEthernet1 overload
+ip access-list standard GS_NAT_ACL
+permit 192.168.0.0 0.0.255.255
+!
+app-hosting appid guestshell
+ app-vnic gateway1 virtualportgroup 0 guest-interface 0
+    guest-ipaddress 192.168.35.2 netmask 255.255.255.0	
+	app-default-gateway 192.168.35.1  guest-interface 0 
+	name-server0 1.1.1.1
+ app-resource profile custom 
+   cpu 1500 
+   memory 512
+end
+
+@Cisco
+guestshell ena
+
+@Python
+guestshell run python
+
+@Linux
+guest run bash
+
+@Cisco
+sh ip int bt
+
+@pyhton
+import cli
+
+commands = [
+    "show ip int brief",
+]
+
+for c in commands:
+    cli.executep(c)
+	
+@linux
+
+
+@
+import cli
+
+commands = [
+    "show version",
+]
+
+for c in commands:
+    cli.executep(c)
+	
+nano dhcp.yml = go to file
+ansible-playbook dhcp.yml
+ctrl + s and x = to save the changes
+
